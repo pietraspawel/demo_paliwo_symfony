@@ -27,22 +27,12 @@ div.notifications {
     width: 1em;
 }
 
-.registrationCard {
+.formCard300 {
     max-width: 300px;
     margin-left: auto;
     margin-right: auto;
 }
 
-.registrationCard button[type="submit"] {
-    width: 100%;
-}
-
-.loginCard {
-    max-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.loginCard button[type="submit"] {
+.formCard300 button[type="submit"] {
     width: 100%;
 }
