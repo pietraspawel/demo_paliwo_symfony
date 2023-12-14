@@ -5,8 +5,45 @@
 {% block body %}
 
 <div class="container">
- 
-    Hello, /login!
+
+    <div class="loginCard card mt-3">
+        <div class="card-body pb-0">
+
+            <h1 class="text-center">Logowanie</h1>
+
+            {% if error %}
+                <div class="card mb-3 border-danger">                
+                    <div class="card-body text-danger">
+                        Nieprawidłowe dane logowania. Spróbuj jeszcze raz.
+                    </div>
+                </div>
+            {% endif %}
+
+            <form action="{{ path('app_login') }}" method="post">
+                <input type="hidden" name="_target_path" value="/counters">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <div class="mb-3">
+                    <label for="username" class="form-label required">Email</label>
+                    <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control" placeholder="Wpisz adres email">
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label required">Hasło</label>
+                    <input type="password" id="password" name="_password" class="form-control" placeholder="Wpisz hasło">
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Zaloguj</button>
+                </div>
+
+{#                 <div class="mb-3">
+                    <a href="{{ path('app_forgot_password') }}">Zapomniałem hasło</a>
+                </div> #}
+            </form>
+
+        </div>
+    </div>
 
 </div>
 
