@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ForgotPasswordFormType;
 use App\Form\RegistrationFormType;
+use App\Form\ResetPasswordFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -154,8 +155,13 @@ class AuthenticationController extends AbstractController
     /**
      * @Route("/reset-password", name="app_reset_password")
      */
-    public function resetPassword(): Response
+    public function resetPassword(Request $request): Response
     {
-        return $this->redirectToRoute('app_home');
+        $form = $this->createForm(ResetPasswordFormType::class, []);
+        $form->handleRequest($request);
+
+        return $this->render('authentication/reset_password.html.twig', [
+            'resetPasswordForm' => $form->createView(),
+        ]);
     }
 }
