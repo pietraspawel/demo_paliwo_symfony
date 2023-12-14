@@ -127,9 +127,9 @@ class AuthenticationController extends AbstractController
 
                 $resetUrl = $urlGenerator->generate(
                     'app_reset_password',
-                    [],
+                    ['code' => $user->getResetCode()],
                     UrlGeneratorInterface::ABSOLUTE_URL
-                ) . '/' . $user->getResetCode();
+                );
                 $email = (new Email())
                     ->from('pawel.z.pietras@gmail.com')
                     ->to($user->getEmail())
