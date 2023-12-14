@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ForgotPasswordFormType;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -85,5 +87,49 @@ class AuthenticationController extends AbstractController
         );
 
         return $this->redirectToRoute('app_home');
+    }
+
+    /**
+     * @Route("/forgot-password", name="app_forgot_password")
+     */
+    public function forgotPassword(
+        Request $request,
+        UserRepository $userRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
+        // Deny access to authenticaded users.
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        $form = $this->createForm(ForgotPasswordFormType::class, []);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $userRepository->findOneBy(['email' => $form->get('email')->getData()]);
+            if ($user !== null) {
+                $diff = false;
+                do {
+                    $user->generateResetCode();
+                    $userWithCode = $userRepository->findOneBy(['resetCode' => $user->getResetCode()]);
+                    if ($userWithCode === null) {
+                        $diff = true;
+                    }
+                } while (!$diff);
+
+                $entityManager->flush();
+            }
+            // send email
+
+            $this->addFlash(
+                'notice',
+                'Na Twój adres email wysłano link do zresetowania hasła!'
+            );
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('authentication/forgot_password.html.twig', [
+            'forgotPasswordForm' => $form->createView(),
+        ]);
     }
 }

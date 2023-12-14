@@ -143,4 +143,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function generateResetCode(): self
+    {
+        $code = '';
+        $chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+        $max = mb_strlen($chars, '8bit') - 1;
+        for ($i = 0; $i < 20; ++$i) {
+            $code .= $chars[random_int(0, $max)];
+        }
+        $this->resetCode = $code;
+
+        return $this;
+    }
 }
