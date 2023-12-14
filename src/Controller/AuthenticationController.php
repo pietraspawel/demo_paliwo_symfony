@@ -14,6 +14,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AuthenticationController extends AbstractController
@@ -98,7 +99,8 @@ class AuthenticationController extends AbstractController
         Request $request,
         UserRepository $userRepository,
         EntityManagerInterface $entityManager,
-        MailerInterface $mailer
+        MailerInterface $mailer,
+        UrlGeneratorInterface $urlGenerator
     ): Response {
         // Deny access to authenticaded users.
         if ($this->getUser()) {
@@ -122,13 +124,17 @@ class AuthenticationController extends AbstractController
 
                 $entityManager->flush();
 
-                // send email
+                $resetUrl = $urlGenerator->generate(
+                    'app_reset_password',
+                    [],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ) . '/' . $user->getResetCode();
                 $email = (new Email())
-                    ->from('test@pietraspawel.pl')
-                    ->to('pawel.z.pietras@gmail.com')
-                    ->subject('Time for Symfony Mailer!')
-                    ->text('Sending emails is fun again!')
-                    ->html('<p>See Twig integration for better HTML integration!</p>');
+                    ->from('pawel.z.pietras@gmail.com')
+                    ->to($user->getEmail())
+                    ->subject('Link do resetowania hasła.')
+                    ->text('Przejdź na adres: ' . $resetUrl)
+                    ->html('<p>Kliknij: <a href="' . $resetUrl . '">resetuj hasło</a>.</p>');
 
                 $mailer->send($email);
             }
@@ -143,5 +149,13 @@ class AuthenticationController extends AbstractController
         return $this->render('authentication/forgot_password.html.twig', [
             'forgotPasswordForm' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/reset-password", name="app_reset_password")
+     */
+    public function resetPassword(): Response
+    {
+        return $this->redirectToRoute('app_home');
     }
 }
