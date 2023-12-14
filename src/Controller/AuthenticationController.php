@@ -41,11 +41,19 @@ class AuthenticationController extends AbstractController
                 'notice',
                 'Zarejestrowałeś użytkownika!'
             );
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('authentication/register.html.twig', [
             'registrationForm' => $registrationForm->createView(),
         ]);
     }
+
+    /**
+     * @Route("/login", name="app_login")
+     */
+    public function login(): Response {
+        return $this->render('authentication/login.html.twig', []);
+    }
+
 }
