@@ -1,0 +1,48 @@
+body {
+    background-color: skyblue;
+}
+
+div.notifications {
+    margin-top: 8px;
+    margin-right: 8px;
+    opacity: 0.9;
+    right: 0;
+    top: 0;
+    z-index: 1030;
+}
+
+@media (max-width: 767px) {
+    div.notifications {
+        margin-right: 0;
+        width: 100%;
+    }
+}
+
+.navbar .navbar-toggler {
+    border: 0;
+}
+
+.navbar .navbar-toggler-icon {
+    height: 1em;
+    width: 1em;
+}
+
+.registrationCard {
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.registrationCard button[type="submit"] {
+    width: 100%;
+}
+
+.loginCard {
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loginCard button[type="submit"] {
+    width: 100%;
+}
