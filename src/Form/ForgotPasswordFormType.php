@@ -18,6 +18,7 @@ class ForgotPasswordFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'attr' => [
                     'autocomplete' => 'email',
+                    'autofocus' => '',
                     'placeholder' => 'Wpisz adres email',
                 ],
                 'constraints' => [

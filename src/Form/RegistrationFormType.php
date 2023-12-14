@@ -20,8 +20,9 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'attr' => [
-                    'placeholder' => 'Wpisz adres email',
                     'autocomplete' => 'email',
+                    'autofocus' => '',
+                    'placeholder' => 'Wpisz adres email',
                 ],
                 'constraints' => [
                     new NotBlank([
