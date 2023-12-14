@@ -21,11 +21,11 @@ class ResetPasswordFormType extends AbstractType
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
                 'first_options'  => [
-                    'label' => 'Password',
-                    'attr' => ['placeholder' => 'Wpisz hasło'],
+                    'label' => 'Hasło',
+                    'attr' => ['placeholder' => 'Wpisz hasło', 'autofocus' => ''],
                 ],
                 'second_options' => [
-                    'label' => 'Repeat Password',
+                    'label' => 'Powtórz hasło',
                     'attr' => ['placeholder' => 'Powtórz hasło'],
                 ],
                 'constraints' => [

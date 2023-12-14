@@ -153,12 +153,32 @@ class AuthenticationController extends AbstractController
     }
 
     /**
-     * @Route("/reset-password", name="app_reset_password")
+     * @Route("/reset-password/{code}", name="app_reset_password")
      */
-    public function resetPassword(Request $request): Response
-    {
+    public function resetPassword(
+        string $code,
+        Request $request,
+        UserRepository $userRepository,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $user = $userRepository->findOneBy(['resetCode' => $code]);
+        if ($user === null) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(ResetPasswordFormType::class, []);
         $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $password = $userPasswordHasher->hashPassword($user, $form->get('password')->getData());
+            $user->setPassword($password)->setResetCode(null);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('notice', 'Zmieniłeś hasło!');
+            return $this->redirectToRoute('app_home');
+        }
 
         return $this->render('authentication/reset_password.html.twig', [
             'resetPasswordForm' => $form->createView(),
