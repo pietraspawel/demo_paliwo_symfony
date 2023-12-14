@@ -13,6 +13,8 @@ class CounterController extends AbstractController
      */
     public function index(): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         return $this->render('counter/counter.html.twig', [
             'controller_name' => 'CounterController',
         ]);
