@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -95,7 +97,8 @@ class AuthenticationController extends AbstractController
     public function forgotPassword(
         Request $request,
         UserRepository $userRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        MailerInterface $mailer
     ): Response {
         // Deny access to authenticaded users.
         if ($this->getUser()) {
@@ -118,8 +121,17 @@ class AuthenticationController extends AbstractController
                 } while (!$diff);
 
                 $entityManager->flush();
+
+                // send email
+                $email = (new Email())
+                    ->from('test@pietraspawel.pl')
+                    ->to('pawel.z.pietras@gmail.com')
+                    ->subject('Time for Symfony Mailer!')
+                    ->text('Sending emails is fun again!')
+                    ->html('<p>See Twig integration for better HTML integration!</p>');
+
+                $mailer->send($email);
             }
-            // send email
 
             $this->addFlash(
                 'notice',
