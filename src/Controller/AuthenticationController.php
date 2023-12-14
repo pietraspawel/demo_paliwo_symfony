@@ -63,4 +63,17 @@ class AuthenticationController extends AbstractController
             'error'         => $error,
         ]);
     }
+
+    /**
+     * @Route("/logout", name="app_logout", methods={"GET"})
+     */
+    public function logout(Security $security): Response
+    {
+        $this->addFlash(
+            'notice',
+            'Wylogowałeś się'
+        );
+
+        return $this->redirectToRoute('app_home');
+    }
 }
