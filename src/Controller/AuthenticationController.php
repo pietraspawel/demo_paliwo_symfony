@@ -22,6 +22,11 @@ class AuthenticationController extends AbstractController
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager
     ): Response {
+        // Deny access to authenticaded users.
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $user = new User();
 
         $registrationForm = $this->createForm(RegistrationFormType::class, $user);
@@ -55,6 +60,11 @@ class AuthenticationController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        // Deny access to authenticaded users.
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
