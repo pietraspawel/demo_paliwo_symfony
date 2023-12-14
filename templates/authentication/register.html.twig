@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rejestracja{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="registrationCard card mt-3">
+        <div class="card-body pb-0">
+            <h1 class="text-center">Rejestracja</h1>
+            {{ form(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
