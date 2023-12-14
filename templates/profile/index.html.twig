@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil użytkownika{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="formCard300 card mt-3">
+        <div class="card-body pb-0">
+            <h1 class="text-center">Zmień hasło</h1>
+            {{ form(changePasswordForm, {'attr': {'novalidate': 'novalidate'}}) }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
