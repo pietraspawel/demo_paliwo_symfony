@@ -78,12 +78,6 @@ class AuthenticationController extends AbstractController
      */
     public function logout(Security $security): Response
     {
-        $this->addFlash(
-            'notice',
-            'Wylogowałeś się'
-        );
-
-        return $this->redirectToRoute('app_home');
     }
 
     /**
