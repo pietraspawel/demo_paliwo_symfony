@@ -14,9 +14,19 @@ class CounterController extends AbstractController
     public function index(): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        
+
+        $user = $this->getUser();
+        if (count($user->getCars()) == 0) {
+            $car = null;
+        } else {
+            // $car = $user->getActiveCar();
+            // if ($car === null) {
+            //     $car = $user->getCars()[0];
+            // }
+        }
+
         return $this->render('counter/counter.html.twig', [
-            'controller_name' => 'CounterController',
+            'car' => $car,
         ]);
     }
 }
