@@ -20,13 +20,14 @@ class CarController extends AbstractController
      */
     public function index(CarRepository $carRepository, Request $request): Response
     {
+        $user = $this->getUser();
         $car = new Car();
 
         $form = $this->createForm(CarType::class, $car);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $car->setOwner($this->getUser());
+            $car->setOwner($user);
             $carRepository->add($car, true);
             $this->addFlash('notice', 'Dodałeś samochód!');
             $car = new Car();
@@ -34,7 +35,7 @@ class CarController extends AbstractController
         }
 
         return $this->render('car/car.html.twig', [
-            'cars' => $carRepository->findAll(),
+            'cars' => $user->getCars(),
             'form' => $form->createView(),
         ]);
     }

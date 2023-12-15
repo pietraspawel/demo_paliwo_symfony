@@ -13,6 +13,26 @@
         </div>
     </div>
 
+    {% if cars is not empty %}
+        <div class="formCard300 card mt-3 ms-0">
+            <div class="card-body">
+                <h4 class="text-center">Lista samochodów</h4>
+                <table class="table">
+                    <tbody>
+                    {% for car in cars %}
+                        <tr>
+                            <td>{{ car.description }}</td>
+                            <td class="text-end">
+                                <a href="#">usuń</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+
 </div>
 
 {% endblock %}
