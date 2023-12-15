@@ -19,6 +19,7 @@ class CounterController extends AbstractController
         if (count($user->getCars()) == 0) {
             $car = null;
         } else {
+            $car = true;
             // $car = $user->getActiveCar();
             // if ($car === null) {
             //     $car = $user->getCars()[0];
