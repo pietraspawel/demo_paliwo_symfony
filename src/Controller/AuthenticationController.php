@@ -39,20 +39,13 @@ class AuthenticationController extends AbstractController
         $registrationForm->handleRequest($request);
 
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $registrationForm->get('plainPassword')->getData()
-                )
-            );
+            $password = $registrationForm->get('plainPassword')->getData();
+            $user->setPassword($userPasswordHasher->hashPassword($user, $password));
 
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash(
-                'notice',
-                'Zarejestrowałeś użytkownika!'
-            );
+            $this->addFlash('notice', 'Zarejestrowałeś użytkownika!');
             return $this->redirectToRoute('app_login');
         }
 
