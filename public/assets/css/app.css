@@ -43,3 +43,9 @@ div.notifications {
 .formCard300 button[type="submit"] {
     width: 100%;
 }
+
+.fastEdit span:hover {
+    border-radius: 3px; /* Długość zaokrąglenia rogów */
+    background-color: #abcdef; /* Kolor tła */
+    padding: 3px;
+}

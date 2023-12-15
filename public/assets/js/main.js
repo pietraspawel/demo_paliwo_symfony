@@ -12,9 +12,21 @@ $(document).ready(function() {
     // It submits form after enter pushed or focus input out.
     // Submit form only if input changed.
     // If new value isn't in range(min, max) restore origin value.
+        $(".fastEdit").on("click", "span", (event) => {
+            let element = $(event.currentTarget);
+            let form = element.closest("form");
+            let input = form.find("input[type='text']");
+            element.addClass("d-none");
+            input.removeClass("d-none");
+            input.focus();
+        })
+
         $(".fastEdit").on("focusout", "input[type='text']", (event) => {
             let element = $(event.currentTarget);
             let form = element.closest("form");
+            let span = form.find("span");
+            element.addClass("d-none");
+            span.removeClass("d-none");
             form.submit();
         });
 
