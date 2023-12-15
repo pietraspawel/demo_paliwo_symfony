@@ -16,33 +16,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class CarController extends AbstractController
 {
     /**
-     * @Route("/", name="app_car_index", methods={"GET"})
+     * @Route("/", name="app_car_index", methods={"GET", "POST"})
      */
-    public function index(CarRepository $carRepository): Response
-    {
-        return $this->render('car/index.html.twig', [
-            'cars' => $carRepository->findAll(),
-        ]);
-    }
-
-    /**
-     * @Route("/new", name="app_car_new", methods={"GET", "POST"})
-     */
-    public function new(Request $request, CarRepository $carRepository): Response
+    public function index(CarRepository $carRepository, Request $request): Response
     {
         $car = new Car();
+
         $form = $this->createForm(CarType::class, $car);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $car->setOwner($this->getUser());
             $carRepository->add($car, true);
-
-            return $this->redirectToRoute('app_car_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('notice', 'Dodałeś samochód!');
+            $car = new Car();
+            $form = $this->createForm(CarType::class, $car);
         }
 
-        return $this->renderForm('car/new.html.twig', [
-            'car' => $car,
-            'form' => $form,
+        return $this->render('car/car.html.twig', [
+            'cars' => $carRepository->findAll(),
+            'form' => $form->createView(),
         ]);
     }
 
@@ -81,7 +74,7 @@ class CarController extends AbstractController
      */
     public function delete(Request $request, Car $car, CarRepository $carRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$car->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $car->getId(), $request->request->get('_token'))) {
             $carRepository->remove($car, true);
         }
 
