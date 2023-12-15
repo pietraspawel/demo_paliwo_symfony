@@ -5,9 +5,19 @@
 {% block body %}
 
 <div class="container">
+
     <div class="formCard300 card mt-3">
         <div class="card-body pb-0">
             <h1 class="text-center">Zmień hasło</h1>
+
+            {% if oldPasswordError %}
+                <div class="card mb-3 border-danger">                
+                    <div class="card-body text-danger">
+                        Hasło nieprawidłowe. Spróbuj jeszcze raz.
+                    </div>
+                </div>
+            {% endif %}
+
             {{ form(changePasswordForm, {'attr': {'novalidate': 'novalidate'}}) }}
         </div>
     </div>
