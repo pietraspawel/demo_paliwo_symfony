@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Car;
 use App\Form\CarType;
 use App\Repository\CarRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,8 +19,11 @@ class CarController extends AbstractController
     /**
      * @Route("/", name="app_car_index", methods={"GET", "POST"})
      */
-    public function index(CarRepository $carRepository, Request $request): Response
-    {
+    public function index(
+        CarRepository $carRepository,
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $user = $this->getUser();
         $car = new Car();
 
@@ -32,6 +36,14 @@ class CarController extends AbstractController
             $this->addFlash('notice', 'Dodałeś samochód!');
             $car = new Car();
             $form = $this->createForm(CarType::class, $car);
+        }
+
+        if (isset($_POST['carDescription'])) {
+            $carId = filter_input(INPUT_POST, 'carId', FILTER_VALIDATE_INT);
+            $carDescription = filter_input(INPUT_POST, 'carDescription');
+            $car = $carRepository->findOneBy(['id' => $carId]);
+            $car->setDescription($carDescription);
+            $entityManager->flush();
         }
 
         return $this->render('car/car.html.twig', [
