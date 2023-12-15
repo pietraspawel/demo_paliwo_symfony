@@ -5,34 +5,41 @@
 {% block body %}
 
 <div class="container">
- 
-    <div class="formCard300 card mt-3 ms-0">
-        <div class="card-body">
-            <h4 class="text-center">Dodawanie samochodu</h4>
-            {{ include('car/_form.html.twig') }}
+    <div class="row">    
+        <div class="col-md"> 
+
+            <div class="formCard300 card mt-3 ms-0 me-0 ms-md-auto">
+                <div class="card-body">
+                    <h4 class="text-center">Dodawanie samochodu</h4>
+                    {{ include('car/_form.html.twig') }}
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md"> 
+
+            {% if cars is not empty %}
+                <div class="formCard300 card mt-3 ms-0">
+                    <div class="card-body">
+                        <h4 class="text-center">Lista samochodów</h4>
+                        <table class="table">
+                            <tbody>
+                            {% for car in cars %}
+                                <tr>
+                                    <td>{{ car.description }}</td>
+                                    <td class="text-end">
+                                        <a href="#"><i class="bi-trash"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+
         </div>
     </div>
-
-    {% if cars is not empty %}
-        <div class="formCard300 card mt-3 ms-0">
-            <div class="card-body">
-                <h4 class="text-center">Lista samochodów</h4>
-                <table class="table">
-                    <tbody>
-                    {% for car in cars %}
-                        <tr>
-                            <td>{{ car.description }}</td>
-                            <td class="text-end">
-                                <a href="#">usuń</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    {% endif %}
-
 </div>
 
 {% endblock %}
