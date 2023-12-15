@@ -39,7 +39,6 @@ class ProfileController extends AbstractController
             $user->setPassword($passwordHasher->hashPassword($user, $newPassword));
             $entityManager->flush();
             $this->addFlash('notice', 'Zmieniłeś hasło!');
-            return $this->redirectToRoute('app_logout');
         }
 
         return $this->render('profile/index.html.twig', [
