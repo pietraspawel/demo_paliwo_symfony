@@ -29,7 +29,7 @@
                                     <td>
                                         <form method="post" class="fastEdit">
                                             <input type="text" name="carDescription" value="{{ car.description }}" 
-                                                data-description-origin="{{ car.description }}">
+                                                data-origin="{{ car.description }}" data-min="3" data-max="255">
                                             <input type="hidden" name="carId" value="{{ car.id }}">
                                         </form>
                                     </td>
