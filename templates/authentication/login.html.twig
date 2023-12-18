@@ -20,7 +20,7 @@
             {% endif %}
 
             <form action="{{ path('app_login') }}" method="post">
-                <input type="hidden" name="_target_path" value="/counters">
+                <input type="hidden" name="_target_path" value="/odometer">
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
                 <div class="mb-3">
