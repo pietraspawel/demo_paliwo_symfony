@@ -37,7 +37,8 @@ class OdometerController extends AbstractController
         }
 
         return $this->render('odometer/odometer.html.twig', [
-            'car' => $car,
+            'user_car' => $car,
+            'cars' => $carRepository->findByOwner($user),
         ]);
     }
 
