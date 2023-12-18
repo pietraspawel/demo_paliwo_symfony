@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$().ready(function() {
     // Hide notifications after 5sec.
         setTimeout(function() {
             $("div.notifications").fadeOut();
