@@ -19,6 +19,7 @@ $(document).ready(function() {
             valueSpan.addClass("d-none");
             input.removeClass("d-none");
             input.focus();
+            input.select();
         })
 
         $(".fastEdit").on("focusout", "input[type='text']", (event) => {
