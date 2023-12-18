@@ -40,7 +40,8 @@ $().ready(function() {
             let waitSpan = form.find(".waitSpan");
 
             if (input.data('origin') == input.val()) {
-                // do nothing
+                input.addClass("d-none");
+                valueSpan.removeClass("d-none");
             } else if (input.data('min') !== undefined && countUtfString(input.val()) < input.data('min')) {
                 input.val(input.data('origin'));
             } else if (input.data('max') !== undefined && countUtfString(input.val()) > input.data('max')) {
