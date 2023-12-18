@@ -35,8 +35,7 @@ class CarController extends AbstractController
             $car->setOwner($user);
             $carRepository->add($car, true);
             $this->addFlash('notice', 'Dodałeś samochód!');
-            $car = new Car();
-            $form = $this->createForm(CarType::class, $car);
+            return $this->redirectToRoute('app_car_index');
         }
 
         if (isset($_POST['carDescription'])) {
