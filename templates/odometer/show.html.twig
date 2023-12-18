@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Odometer{% endblock %}
+
+{% block body %}
+    <h1>Odometer</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ odometer.id }}</td>
+            </tr>
+            <tr>
+                <th>Value</th>
+                <td>{{ odometer.value }}</td>
+            </tr>
+            <tr>
+                <th>Fuel</th>
+                <td>{{ odometer.fuel }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ odometer.price }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ odometer.date ? odometer.date|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_odometer_index') }}">back to list</a>
+
+    <a href="{{ path('app_odometer_edit', {'id': odometer.id}) }}">edit</a>
+
+    {{ include('odometer/_delete_form.html.twig') }}
+{% endblock %}
