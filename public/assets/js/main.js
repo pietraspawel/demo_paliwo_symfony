@@ -12,39 +12,64 @@ $(document).ready(function() {
     // It submits form after enter pushed or focus input out.
     // Submit form only if input changed.
     // If new value isn't in range(min, max) restore origin value.
-        $(".fastEdit").on("click", "span", (event) => {
-            let element = $(event.currentTarget);
-            let form = element.closest("form");
+        $(".fastEdit").on("click", ".valueSpan", (event) => {
+            let valueSpan = $(event.currentTarget);
+            let form = valueSpan.closest("form");
             let input = form.find("input[type='text']");
-            element.addClass("d-none");
+            valueSpan.addClass("d-none");
             input.removeClass("d-none");
             input.focus();
         })
 
         $(".fastEdit").on("focusout", "input[type='text']", (event) => {
-            let element = $(event.currentTarget);
-            let form = element.closest("form");
-            let span = form.find("span");
-            element.addClass("d-none");
-            span.removeClass("d-none");
+            let input = $(event.currentTarget);
+            let form = input.closest("form");
+            let valueSpan = form.find(".valueSpan");
+            input.addClass("d-none");
+            valueSpan.removeClass("d-none");
             form.submit();
         });
 
         $(".fastEdit").submit((event) => {
-            let element = $(event.currentTarget);
-            let input = element.find("input[type='text']");
+            event.preventDefault();
+
+            let form = $(event.currentTarget);
+            let input = form.find("input[type='text']");
+            let valueSpan = form.find(".valueSpan");
+            let waitSpan = form.find(".waitSpan");
+
             if (input.data('origin') == input.val()) {
-                event.preventDefault();
-            } else if (input.data('min') !== undefined) {
-                if (countUtfString(input.val()) < input.data('min')) {
-                    event.preventDefault();
-                    input.val(input.data('origin'));
+                // do nothing
+            } else if (input.data('min') !== undefined && countUtfString(input.val()) < input.data('min')) {
+                input.val(input.data('origin'));
+            } else if (input.data('max') !== undefined && countUtfString(input.val()) > input.data('max')) {
+                input.val(input.data('origin'));
+            } else {
+                let dataToSend = {
+                    id: input.data('id'),
+                    description: input.val(),
                 }
-            } else if (input.data('max') !== undefined) {
-                if (countUtfString(input.val()) > input.data('max')) {
-                    event.preventDefault();
-                    input.val(input.data('origin'));
-                }
+                input.addClass("d-none");
+                valueSpan.addClass("d-none");
+                waitSpan.removeClass("d-none");
+                $.ajax({
+                    url: '/car/edit',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(dataToSend),
+                    success: function(response) {
+                        valueSpan.text(dataToSend['description']);
+                        input.val(dataToSend['description']);
+                        input.data('origin', dataToSend['description']);
+                        valueSpan.removeClass("d-none");
+                        waitSpan.addClass("d-none");
+                    },
+                    error: function(error) {
+                        // console.error('Błąd podczas edycji:', error);
+                        // console.error('Response text:', error.responseText);
+                        // console.log(dataToSend);
+                    }
+                });
             }
         });
 });

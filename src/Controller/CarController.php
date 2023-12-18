@@ -7,6 +7,7 @@ use App\Form\CarType;
 use App\Repository\CarRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,32 +55,31 @@ class CarController extends AbstractController
     }
 
     /**
+     * @Route("/edit", name="app_car_edit", methods={"POST"})
+     */
+    public function edit(
+        Request $request,
+        CarRepository $carRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $data = json_decode($request->getContent(), true);
+        $car = $carRepository->findOneBy(['id' => $data['id']]);
+        if (!$car) {
+            return new JsonResponse(['error' => 'Car not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $car->setDescription($data['description']);
+        $entityManager->flush();
+        return new JsonResponse(['success' => true]);
+    }
+
+    /**
      * @Route("/{id}", name="app_car_show", methods={"GET"})
      */
     public function show(Car $car): Response
     {
         return $this->render('car/show.html.twig', [
             'car' => $car,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="app_car_edit", methods={"GET", "POST"})
-     */
-    public function edit(Request $request, Car $car, CarRepository $carRepository): Response
-    {
-        $form = $this->createForm(CarType::class, $car);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $carRepository->add($car, true);
-
-            return $this->redirectToRoute('app_car_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('car/edit.html.twig', [
-            'car' => $car,
-            'form' => $form,
         ]);
     }
 

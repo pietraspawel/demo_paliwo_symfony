@@ -44,8 +44,19 @@ div.notifications {
     width: 100%;
 }
 
-.fastEdit span:hover {
-    border-radius: 3px; /* Długość zaokrąglenia rogów */
-    background-color: #abcdef; /* Kolor tła */
+.fastEdit .valueSpan:hover {
+    border-radius: 3px;
+    background-color: #abcdef;
     padding: 3px;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.rotate-icon:before {
+    animation: rotate 2s linear infinite;
+    display: block;
+    width: 16px;
 }

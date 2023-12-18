@@ -28,10 +28,10 @@
                                 <tr>
                                     <td>
                                         <form method="post" class="fastEdit">
-                                            <span>{{ car.description }}</span>
+                                            <span class="waitSpan d-none"><i class="bi bi-hourglass-split rotate-icon"></i></span>
+                                            <span class="valueSpan">{{ car.description }}</span>
                                             <input type="text" name="carDescription" value="{{ car.description }}"  class="form-control d-none"
-                                                data-origin="{{ car.description }}" data-min="3" data-max="255">
-                                            <input type="hidden" name="carId" value="{{ car.id }}">
+                                                data-id="{{ car.id }}" data-origin="{{ car.description }}" data-min="3" data-max="255">
                                         </form>
                                     </td>
                                     <td class="text-end">
