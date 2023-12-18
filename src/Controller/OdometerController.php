@@ -6,6 +6,7 @@ use App\Entity\Odometer;
 use App\Form\OdometerType;
 use App\Repository\CarRepository;
 use App\Repository\OdometerRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,19 +20,20 @@ class OdometerController extends AbstractController
     /**
      * @Route("/", name="app_odometer_index", methods={"GET"})
      */
-    public function index(CarRepository $carRepository, OdometerRepository $odometerRepository): Response
-    {
+    public function index(
+        CarRepository $carRepository,
+        OdometerRepository $odometerRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $user = $this->getUser();
-        if (count($carRepository->findByOwner($user)) == 0) {
-            $car = null;
-        } else {
-            $car = true;
-            // $car = $user->getActiveCar();
-            // if ($car === null) {
-            //     $car = $user->getCars()[0];
-            // }
+        $car = $user->getCurrentCar();
+
+        if ($car === null || !$car->isActive()) {
+            $car = $carRepository->findOneByOwner($user);
+            $user->setCurrentCar($car);
+            $entityManager->flush();
         }
 
         return $this->render('odometer/odometer.html.twig', [

@@ -51,6 +51,18 @@ class CarRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findOneByOwner(User $owner)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.owner = :owner')
+            ->andWhere('c.active = :active')
+            ->setParameter('owner', $owner)
+            ->setParameter('active', 1)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 //    /**
 //     * @return Car[] Returns an array of Car objects
 //     */
