@@ -54,6 +54,10 @@ class CarController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response {
         $data = json_decode($request->getContent(), true);
+        if (!$this->isCsrfTokenValid('edit' . $data['id'], $data['_token'])) {
+            return new JsonResponse(['error' => 'Unknown'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
         $car = $carRepository->findOneBy(['id' => $data['id']]);
         if (!$car) {
             return new JsonResponse(['error' => 'Car not found'], JsonResponse::HTTP_NOT_FOUND);

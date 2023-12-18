@@ -12,6 +12,7 @@
                                 <span class="valueSpan">{{ car.description }}</span>
                                 <input type="text" name="carDescription" value="{{ car.description }}"  class="form-control d-none"
                                     data-id="{{ car.id }}" data-origin="{{ car.description }}" data-min="3" data-max="255">
+                                <input type="hidden" name="_token" value="{{ csrf_token('edit' ~ car.id) }}">
                             </form>
                         </td>
                         <td class="text-end">

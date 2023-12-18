@@ -50,6 +50,7 @@ $().ready(function() {
                 let dataToSend = {
                     id: input.data('id'),
                     description: input.val(),
+                    _token: form.find("input[name='_token']").val(),
                 }
                 input.addClass("d-none");
                 valueSpan.addClass("d-none");
