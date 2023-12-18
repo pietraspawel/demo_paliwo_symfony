@@ -38,14 +38,6 @@ class CarController extends AbstractController
             return $this->redirectToRoute('app_car_index');
         }
 
-        if (isset($_POST['carDescription'])) {
-            $carId = filter_input(INPUT_POST, 'carId', FILTER_VALIDATE_INT);
-            $carDescription = filter_input(INPUT_POST, 'carDescription');
-            $car = $carRepository->findOneBy(['id' => $carId]);
-            $car->setDescription($carDescription);
-            $entityManager->flush();
-        }
-
         return $this->render('car/car.html.twig', [
             'cars' => $carRepository->findByOwner($user),
             'form' => $form->createView(),
@@ -73,6 +65,14 @@ class CarController extends AbstractController
     }
 
     /**
+     * @Route("/edit", methods={"GET"})
+     */
+    public function editWrongMethod()
+    {
+        return $this->redirectToRoute('app_car_index');
+    }
+
+    /**
      * @Route("/{id}", name="app_car_delete", methods={"POST"})
      */
     public function delete(Request $request, Car $car, EntityManagerInterface $entityManager): Response
@@ -83,6 +83,14 @@ class CarController extends AbstractController
             $this->addFlash('warning', 'Usunąłeś samochód!');
         }
 
+        return $this->redirectToRoute('app_car_index');
+    }
+
+    /**
+     * @Route("/{id}", methods={"GET"})
+     */
+    public function deleteWrongMethod()
+    {
         return $this->redirectToRoute('app_car_index');
     }
 }
