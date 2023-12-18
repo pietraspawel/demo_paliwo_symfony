@@ -15,7 +15,7 @@ class HomeController extends AbstractController
     {
         $user = $this->getUser();
         if ($user !== null) {
-            return $this->redirectToRoute('app_odometer');
+            return $this->redirectToRoute('app_odometer_index');
         }
         return $this->redirectToRoute('app_login');
     }
