@@ -80,8 +80,9 @@ class CarController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $car->getId(), $request->request->get('_token'))) {
             $carRepository->remove($car, true);
+            $this->addFlash('warning', 'Usunąłeś samochód!');
         }
 
-        return $this->redirectToRoute('app_car_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_car_index');
     }
 }

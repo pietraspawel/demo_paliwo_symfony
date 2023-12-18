@@ -25,6 +25,18 @@ div.notifications {
     }
 }
 
+div.notifications .flash-notice {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+}
+
+div.notifications .flash-warning {
+    color: #664d03;
+    background-color: #fff3cd;
+    border-color: #ffecb5;
+}
+
 .navbar .navbar-toggler {
     border: 0;
 }
