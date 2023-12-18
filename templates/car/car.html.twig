@@ -2,49 +2,20 @@
 
 {% block title %}Samochody{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/car.js') }}" defer></script>
+{% endblock %}
+
 {% block body %}
 
 <div class="container">
     <div class="row">    
         <div class="col-md"> 
-
-            <div class="formCard300 card mt-3 ms-0 me-0 ms-md-auto">
-                <div class="card-body">
-                    <h4 class="text-center">Dodawanie samochodu</h4>
-                    {{ include('car/_form.html.twig') }}
-                </div>
-            </div>
-
+            {{ include('car/_add.html.twig') }}
         </div>
         <div class="col-md"> 
-
-            {% if cars is not empty %}
-                <div class="formCard300 card mt-3 ms-0">
-                    <div class="card-body">
-                        <h4 class="text-center">Lista samochodów</h4>
-                        <table class="table">
-                            <tbody>
-                            {% for car in cars %}
-                                <tr>
-                                    <td>
-                                        <form method="post" class="fastEdit">
-                                            <div class="waitSpan d-none text-center"><i class="bi bi-hourglass-split rotate-icon"></i></div>
-                                            <span class="valueSpan">{{ car.description }}</span>
-                                            <input type="text" name="carDescription" value="{{ car.description }}"  class="form-control d-none"
-                                                data-id="{{ car.id }}" data-origin="{{ car.description }}" data-min="3" data-max="255">
-                                        </form>
-                                    </td>
-                                    <td class="text-end">
-                                        <a href="#"><i class="bi-trash"></i></a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            {% endif %}
-
+            {{ include('car/_index.html.twig') }}
         </div>
     </div>
 </div>
