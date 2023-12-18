@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Odometer;
 use App\Form\OdometerType;
+use App\Repository\CarRepository;
 use App\Repository\OdometerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,10 +19,23 @@ class OdometerController extends AbstractController
     /**
      * @Route("/", name="app_odometer_index", methods={"GET"})
      */
-    public function index(OdometerRepository $odometerRepository): Response
+    public function index(CarRepository $carRepository, OdometerRepository $odometerRepository): Response
     {
-        return $this->render('odometer/index.html.twig', [
-            'odometers' => $odometerRepository->findAll(),
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $user = $this->getUser();
+        if (count($carRepository->findByOwner($user)) == 0) {
+            $car = null;
+        } else {
+            $car = true;
+            // $car = $user->getActiveCar();
+            // if ($car === null) {
+            //     $car = $user->getCars()[0];
+            // }
+        }
+
+        return $this->render('odometer/odometer.html.twig', [
+            'car' => $car,
         ]);
     }
 
@@ -81,7 +95,7 @@ class OdometerController extends AbstractController
      */
     public function delete(Request $request, Odometer $odometer, OdometerRepository $odometerRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$odometer->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $odometer->getId(), $request->request->get('_token'))) {
             $odometerRepository->remove($odometer, true);
         }
 
