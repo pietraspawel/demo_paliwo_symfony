@@ -8,7 +8,7 @@ $().ready(function() {
         $("#deleteConfirmationModal").modal("show");
     });
 
-    $("#deleteConfirmationModal").on("click", "button", () => {
+    $("#deleteConfirmationModal").on("click", "button[type='submit']", () => {
         let id = $("#deleteConfirmationModal").data("id");
         $("form.delete-" + id).submit();
     });
