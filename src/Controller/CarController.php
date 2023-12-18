@@ -48,7 +48,7 @@ class CarController extends AbstractController
         }
 
         return $this->render('car/car.html.twig', [
-            'cars' => $user->getCars(),
+            'cars' => $carRepository->findByOwner($user),
             'form' => $form->createView(),
             'button_label' => 'Dodaj samochód',
         ]);
@@ -76,10 +76,11 @@ class CarController extends AbstractController
     /**
      * @Route("/{id}", name="app_car_delete", methods={"POST"})
      */
-    public function delete(Request $request, Car $car, CarRepository $carRepository): Response
+    public function delete(Request $request, Car $car, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $car->getId(), $request->request->get('_token'))) {
-            $carRepository->remove($car, true);
+            $car->setActive(false);
+            $entityManager->flush();
             $this->addFlash('warning', 'Usunąłeś samochód!');
         }
 

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Car;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,17 @@ class CarRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findByOwner(User $owner)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.owner = :owner')
+            ->andWhere('c.active = :active')
+            ->setParameter('owner', $owner)
+            ->setParameter('active', 1)
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
