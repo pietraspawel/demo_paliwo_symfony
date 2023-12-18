@@ -45,6 +45,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $resetCode;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Car::class, cascade={"persist", "remove"})
+     */
+    private $currentCar;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -155,6 +160,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $code .= $chars[random_int(0, $max)];
         }
         $this->resetCode = $code;
+
+        return $this;
+    }
+
+    public function getCurrentCar(): ?Car
+    {
+        return $this->currentCar;
+    }
+
+    public function setCurrentCar(?Car $currentCar): self
+    {
+        $this->currentCar = $currentCar;
 
         return $this;
     }
