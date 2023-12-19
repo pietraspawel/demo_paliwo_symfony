@@ -43,6 +43,35 @@ class OdometerController extends AbstractController
     }
 
     /**
+     * @Route("/change-car", methods={"GET"})
+     */
+    public function changeCarWrongMethod()
+    {
+        return $this->redirectToRoute('app_odometer_index');
+    }
+
+    /**
+     * @Route("/change-car", name="app_odometer_change_car", methods={"POST"})
+     */
+    public function changeCar(
+        Request $request,
+        CarRepository $carRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        if ($this->isCsrfTokenValid('select-current', $request->request->get('_token'))) {
+            $id = filter_input(INPUT_POST, 'car-select');
+            $user = $this->getUser();
+            $car = $carRepository->find($id);
+            $user->setCurrentCar($car);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_odometer_index');
+    }
+
+    /**
      * @Route("/new", name="app_odometer_new", methods={"GET", "POST"})
      */
     public function new(Request $request, OdometerRepository $odometerRepository): Response

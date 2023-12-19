@@ -2,6 +2,11 @@
 
 {% block title %}Liczniki{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/odometer.js') }}" defer></script>
+{% endblock %}
+
 {% block body %}
 
 <div class="container">
@@ -9,17 +14,20 @@
     {% if user_car is null %}
         <div class="container mt-3">Brak samochodów. Dodaj swój pierwszy <a href="{{ path('app_car_index') }}">samochód</a>.</div>
     {% else %}
-        <div class="container">
+        <div class="container mt-3">
             <div class="formCard300 card mt-3 ms-0 me-0 me-md-auto">
                 <div class="card-body">
-                    <select class="form-select">
-                        <option selected>{{ user_car.description }}</option>
-                        {% for car in cars %}
-                            {% if car.id != user_car.id %}
-                                <option value="{{ car.id }}">{{ car.description }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
+                    <form id="current-car" method="post" action="{{ path('app_odometer_change_car') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('select-current') }}">
+                        <select class="form-select" name="car-select">
+                            <option value="{{ user_car.id }}" selected>{{ user_car.description }}</option>
+                            {% for car in cars %}
+                                {% if car.id != user_car.id %}
+                                    <option value="{{ car.id }}">{{ car.description }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </form>
                 </div>
             </div>
         </div>
