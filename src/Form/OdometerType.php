@@ -16,7 +16,7 @@ class OdometerType extends AbstractType
             ->add('fuel')
             ->add('price')
             ->add('date')
-            ->add('car')
+            // ->add('car')
         ;
     }
 

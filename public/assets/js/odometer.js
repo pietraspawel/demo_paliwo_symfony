@@ -4,8 +4,4 @@ $().ready(() => {
         let form = select.closest("form");
         form.submit();
     });
-
-    $("button#add").click(() => {
-        $("#addModal").modal("show");
-    });
 });

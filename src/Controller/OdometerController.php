@@ -18,15 +18,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class OdometerController extends AbstractController
 {
     /**
-     * @Route("/", name="app_odometer_index", methods={"GET"})
+     * @Route("/", name="app_odometer_index", methods={"GET", "POST"})
      */
     public function index(
+        Request $request,
         CarRepository $carRepository,
         OdometerRepository $odometerRepository,
         EntityManagerInterface $entityManager
     ): Response {
         $user = $this->getUser();
         $car = $user->getCurrentCar();
+        $odometer = new Odometer();
+        $form = $this->createForm(OdometerType::class, $odometer);
+        $form->handleRequest($request);
 
         if ($car === null || !$car->isActive()) {
             $car = $carRepository->findOneByOwner($user);
@@ -37,6 +41,7 @@ class OdometerController extends AbstractController
         return $this->render('odometer/odometer.html.twig', [
             'user_car' => $car,
             'cars' => $carRepository->findByOwner($user),
+            'form' => $form->createView(),
         ]);
     }
 
