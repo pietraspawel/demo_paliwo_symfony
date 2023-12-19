@@ -1,6 +1,6 @@
-$().ready(function() {
+$().ready(() => {
     // Hide notifications after 5sec.
-        setTimeout(function() {
+        setTimeout(() => {
             $("div.notifications").fadeOut();
         }, 5000);
 
@@ -60,14 +60,14 @@ $().ready(function() {
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(dataToSend),
-                    success: function(response) {
+                    success: (response) => {
                         valueSpan.text(dataToSend['description']);
                         input.val(dataToSend['description']);
                         input.data('origin', dataToSend['description']);
                         valueSpan.removeClass("d-none");
                         waitSpan.addClass("d-none");
                     },
-                    error: function(error) {
+                    error: (error) => {
                         // console.error('Błąd podczas edycji:', error);
                         // console.error('Response text:', error.responseText);
                         // console.log(dataToSend);

@@ -1,4 +1,4 @@
-$().ready(function() {
+$().ready(() => {
     $("form.delete").on("click", "button[type='button']", (e) => {
         let button = $(e.currentTarget);
         let id = button.data("id");
