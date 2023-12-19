@@ -25,8 +25,6 @@ class OdometerController extends AbstractController
         OdometerRepository $odometerRepository,
         EntityManagerInterface $entityManager
     ): Response {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
         $user = $this->getUser();
         $car = $user->getCurrentCar();
 
@@ -58,8 +56,6 @@ class OdometerController extends AbstractController
         CarRepository $carRepository,
         EntityManagerInterface $entityManager
     ): Response {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
         if ($this->isCsrfTokenValid('select-current', $request->request->get('_token'))) {
             $id = filter_input(INPUT_POST, 'car-select');
             $user = $this->getUser();

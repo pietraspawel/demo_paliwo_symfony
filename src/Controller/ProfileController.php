@@ -20,8 +20,6 @@ class ProfileController extends AbstractController
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager
     ): Response {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
         $form = $this->createForm(ChangePasswordFormType::class, []);
         $form->handleRequest($request);
 
