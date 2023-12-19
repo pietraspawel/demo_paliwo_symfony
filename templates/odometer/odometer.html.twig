@@ -14,9 +14,10 @@
     {% if user_car is null %}
         <div class="container mt-3">Brak samochodów. Dodaj swój pierwszy <a href="{{ path('app_car_index') }}">samochód</a>.</div>
     {% else %}
-        <div class="container mt-3">
-            <div class="formCard300 card mt-3 ms-0 me-0 me-md-auto">
-                <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md mt-3">
+
                     <form id="current-car" method="post" action="{{ path('app_odometer_change_car') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token('select-current') }}">
                         <select class="form-select" name="car-select">
@@ -28,6 +29,12 @@
                             {% endfor %}
                         </select>
                     </form>
+
+                </div>
+                <div class="col-md mt-3">
+
+                    <button class="btn btn-primary"><i class="bi bi-plus-circle"></i> Dodaj stan licznika</button>
+
                 </div>
             </div>
         </div>
