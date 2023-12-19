@@ -2,6 +2,11 @@
 
 {% block title %}Liczniki{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/odometer.css') }}">
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('assets/js/odometer.js') }}" defer></script>
@@ -14,38 +19,34 @@
     {% if user_car is null %}
         <div class="container mt-3">Brak samochodów. Dodaj swój pierwszy <a href="{{ path('app_car_index') }}">samochód</a>.</div>
     {% else %}
-        <div class="container">
-            <div class="row">
-                <div class="col-md mt-3">
-                    <div class="formCard300 card ms-0 me-0 ms-md-auto">
-                        <div class="card-body">
+        <div class="container odometer-container">
+            <div class="formCard300 mt-3 card ms-0 me-0 ms-md-auto">
+                <div class="card-body">
 
-                            <form id="current-car" method="post" action="{{ path('app_odometer_change_car') }}">
-                                <input type="hidden" name="_token" value="{{ csrf_token('select-current') }}">
-                                <select class="form-select" name="car-select">
-                                    <option value="{{ user_car.id }}" selected>{{ user_car.description }}</option>
-                                    {% for car in cars %}
-                                        {% if car.id != user_car.id %}
-                                            <option value="{{ car.id }}">{{ car.description }}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </select>
-                            </form>
+                    <form id="current-car" method="post" action="{{ path('app_odometer_change_car') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('select-current') }}">
+                        <select class="form-select" name="car-select">
+                            <option value="{{ user_car.id }}" selected>{{ user_car.description }}</option>
+                            {% for car in cars %}
+                                {% if car.id != user_car.id %}
+                                    <option value="{{ car.id }}">{{ car.description }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </form>
 
-                            <h4 class="mt-3 text-center">Dodawanie stanu licznika</h4>
-                            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-                                {{ form_widget(form) }}
-                                <button class="btn btn-primary" type="submit"><i class="bi bi-plus-circle"></i> Dodaj stan licznika</button>
-                            {{ form_end(form) }}
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md mt-3">
-
-                    zapisane stany
+                    <h4 class="mt-3 text-center">Dodawanie stanu licznika</h4>
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                        {{ form_widget(form) }}
+                        <button class="btn btn-primary" type="submit"><i class="bi bi-plus-circle"></i> Dodaj stan licznika</button>
+                    {{ form_end(form) }}
 
                 </div>
+            </div>
+            <div class="mt-3 ps-md-3">
+
+                zapisane stany
+
             </div>
         </div>
     {% endif %}

@@ -1,0 +1,6 @@
+@media (min-width: 768px) {
+    .odometer-container {
+        display: grid;
+        grid-template-columns: max(300px) auto;
+    }
+}
