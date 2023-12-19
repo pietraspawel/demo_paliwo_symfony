@@ -41,7 +41,6 @@ class CarController extends AbstractController
         return $this->render('car/car.html.twig', [
             'cars' => $carRepository->findByOwner($user),
             'form' => $form->createView(),
-            'button_label' => 'Dodaj samochód',
         ]);
     }
 
