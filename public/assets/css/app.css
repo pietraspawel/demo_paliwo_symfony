@@ -46,6 +46,18 @@ div.notifications .flash-warning {
     width: 1em;
 }
 
+.form-card-100-percent button[type="submit"] {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .form-card-100-percent {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
 .formCard300 button[type="submit"] {
     width: 100%;
 }

@@ -29,6 +29,7 @@ class OdometerController extends AbstractController
         $user = $this->getUser();
         $car = $user->getCurrentCar();
         $odometer = new Odometer();
+        $odometer->setCar($car);
         $lastRefuel = $odometerRepository->findTheNewestByCar($car);
         $lastRefuelDate = '2000-01-01';
         if ($lastRefuel !== null) {
@@ -41,6 +42,12 @@ class OdometerController extends AbstractController
             $car = $carRepository->findOneByOwner($user);
             $user->setCurrentCar($car);
             $entityManager->flush();
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $odometerRepository->add($odometer, true);
+            $this->addFlash('notice', 'Zapisałeś stan licznika!');
+            return $this->redirectToRoute('app_odometer_index');
         }
 
         return $this->render('odometer/odometer.html.twig', [
