@@ -29,7 +29,7 @@ class OdometerController extends AbstractController
         $user = $this->getUser();
         $car = $user->getCurrentCar();
         $odometer = new Odometer();
-        $form = $this->createForm(OdometerType::class, $odometer);
+        $form = $this->createForm(OdometerType::class, $odometer, ['last_refuel_date' => '2022-01-01']);
         $form->handleRequest($request);
 
         if ($car === null || !$car->isActive()) {

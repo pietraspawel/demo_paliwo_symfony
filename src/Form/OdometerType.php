@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Odometer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -50,7 +51,7 @@ class OdometerType extends AbstractType
                 'attr' => ['placeholder' => 'Wpisz cenę'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Wpisz ilość paliwa',
+                        'message' => 'Wpisz cenę',
                     ]),
                     new Range([
                         'min' => 0,
@@ -60,10 +61,24 @@ class OdometerType extends AbstractType
                 ],
                 'currency' => false,
                 'invalid_message' => 'Nieprawidłowa wartość',
-                'label' => 'Cena',
+                'label' => 'Cena/litr',
             ])
-            ->add('date')
-            // ->add('car')
+            ->add('date', DateType::class, [
+                'attr' => ['placeholder' => 'Wpisz datę tankowania'],
+                'constraints' => [
+                    new NotBlank(['message' => 'Wpisz datę']),
+                    new Range([
+                        'min' => $options['last_refuel_date'],
+                        'max' => 'today',
+                        'notInRangeMessage' => 'Data nie może być starsza niż data ostatniego tankowania i nie młodsza niż dzisiaj',
+                    ]),
+                ],
+                'data' => new \DateTime(),
+                'invalid_message' => 'Nieprawidłowa wartość',
+                'label' => 'Data',
+                'format' => 'ddMMyyyy',
+                'widget' => 'choice',
+            ])
         ;
     }
 
@@ -71,6 +86,7 @@ class OdometerType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Odometer::class,
+            'last_refuel_date' => '2000-01-01',
         ]);
     }
 }
