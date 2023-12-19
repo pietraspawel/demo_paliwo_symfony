@@ -11,6 +11,8 @@
 
 <div class="container">
  
+    {{ include('odometer/_add_modal.html.twig') }}
+
     {% if user_car is null %}
         <div class="container mt-3">Brak samochodów. Dodaj swój pierwszy <a href="{{ path('app_car_index') }}">samochód</a>.</div>
     {% else %}
@@ -33,7 +35,7 @@
                 </div>
                 <div class="col-md mt-3">
 
-                    <button class="btn btn-primary"><i class="bi bi-plus-circle"></i> Dodaj stan licznika</button>
+                    <button class="btn btn-primary" id="add"><i class="bi bi-plus-circle"></i> Dodaj stan licznika</button>
 
                 </div>
             </div>

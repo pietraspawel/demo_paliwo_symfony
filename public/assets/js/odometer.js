@@ -5,4 +5,7 @@ $().ready(() => {
         form.submit();
     });
 
+    $("button#add").click(() => {
+        $("#addModal").modal("show");
+    });
 });
