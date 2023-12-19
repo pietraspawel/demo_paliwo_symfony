@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Car;
 use App\Entity\Odometer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,6 +38,20 @@ class OdometerRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findTheNewestByCar(?Car $car)
+    {
+        if ($car === null) {
+            return null;
+        }
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.car = :car')
+            ->setParameter('car', $car)
+            ->setMaxResults(1)
+            ->orderBy('o.date', 'DESC')
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
 //    /**
