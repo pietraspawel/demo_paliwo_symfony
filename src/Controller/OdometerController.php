@@ -103,6 +103,10 @@ class OdometerController extends AbstractController
      */
     public function edit(Request $request, Odometer $odometer, OdometerRepository $odometerRepository): Response
     {
+        if ($this->getUser()->getId() != $odometer->getCar()->getOwner()->getId()) {
+            return $this->redirectToRoute('app_odometer_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         $form = $this->createForm(OdometerFormType::class, $odometer);
         $form->handleRequest($request);
 
