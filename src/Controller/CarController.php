@@ -86,14 +86,14 @@ class CarController extends AbstractController
             $this->addFlash('warning', 'Usunąłeś samochód!');
         }
 
-        return $this->redirectToRoute('app_car_index');
+        return $this->redirectToRoute('app_car_index', [], Response::HTTP_SEE_OTHER);
     }
 
     /**
      * @Route("/{id}", methods={"GET"})
      */
-    public function deleteWrongMethod()
+    public function deleteWrongMethod(): Response
     {
-        return $this->redirectToRoute('app_car_index');
+        return $this->redirectToRoute('app_car_index', [], Response::HTTP_SEE_OTHER);
     }
 }
