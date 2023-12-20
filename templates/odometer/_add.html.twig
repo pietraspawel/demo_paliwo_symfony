@@ -13,9 +13,6 @@
     </form>
 
     <h4 class="mt-3 text-center">Dodawanie stanu licznika</h4>
-    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-        {{ form_widget(form) }}
-        <button class="btn btn-primary" type="submit"><i class="bi bi-plus-circle"></i> Dodaj stan licznika</button>
-    {{ form_end(form) }}
+    {{ include('odometer/_form.html.twig', {'button_label': 'Dodaj stan licznika'}) }}
 
 </div>
