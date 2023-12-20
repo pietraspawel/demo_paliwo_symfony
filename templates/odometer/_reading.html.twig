@@ -2,16 +2,31 @@
     <h4 class="text-center">Liczniki</h4>
     <table class="table">
         <thead>
-            <th>data</th>
-            <th>stan</th>
-            <th>paliwo</th>
-            <th>cena</th>
-            <th>zapłacono</th>
-            <th>przejechano</th>
-            <th>spalanie</th>
-            <th></th>
+            <tr>
+                <th>data</th>
+                <th>stan</th>
+                <th>paliwo</th>
+                <th>cena</th>
+                <th>zapłacono</th>
+                <th>przejechano</th>
+                <th>spalanie</th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
+            {{ dump(odometers) }}
+            {% for odometer in odometers %}
+                <tr>
+                    <td>{{ odometer.date.format("d.m.Y") }}</td>
+                    <td>{{ odometer.value|number_format(0, ",", "&nbsp;")|raw }}</td>
+                    <td>{{ odometer.fuel|number_format(2, ",", "&nbsp;")|raw }}</td>
+                    <td>{{ odometer.price|number_format(2, ",", "&nbsp;")|raw }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
