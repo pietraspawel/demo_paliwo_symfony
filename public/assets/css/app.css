@@ -56,12 +56,12 @@ div.notifications .flash-warning {
     }
 }
 
-.formCard300 button[type="submit"] {
+.form-card-300 button[type="submit"] {
     width: 100%;
 }
 
 @media (min-width: 768px) {
-    .formCard300 {
+    .form-card-300 {
         max-width: 300px;
         margin-left: auto;
         margin-right: auto;
