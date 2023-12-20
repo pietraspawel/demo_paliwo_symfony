@@ -9,16 +9,16 @@
 
 {% block body %}
 
-{{ include('car/_delete_confirmation_modal.html.twig') }}
-<div class="container">
-    <div class="row">    
-        <div class="col-md"> 
-            {{ include('car/_add.html.twig') }}
-        </div>
-        <div class="col-md"> 
-            {{ include('car/_index.html.twig') }}
+    {{ include('car/_delete_confirmation_modal.html.twig') }}
+    <div class="container">
+        <div class="row">    
+            <div class="col-md"> 
+                {{ include('car/_add.html.twig') }}
+            </div>
+            <div class="col-md"> 
+                {{ include('car/_index.html.twig') }}
+            </div>
         </div>
     </div>
-</div>
 
 {% endblock %}
