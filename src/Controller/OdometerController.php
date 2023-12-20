@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Odometer;
-use App\Form\OdometerType;
+use App\Form\OdometerFormType;
 use App\Repository\CarRepository;
 use App\Repository\OdometerRepository;
 use App\Service\OdometerService;
@@ -48,7 +48,7 @@ class OdometerController extends AbstractController
             $odometerService->preprocessCollection($odometerCollection);
         }
 
-        $form = $this->createForm(OdometerType::class, $odometer, ['last_refuel_date' => $lastRefuelDate]);
+        $form = $this->createForm(OdometerFormType::class, $odometer, ['last_refuel_date' => $lastRefuelDate]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $odometerRepository->add($odometer, true);
@@ -97,7 +97,7 @@ class OdometerController extends AbstractController
      */
     public function edit(Request $request, Odometer $odometer, OdometerRepository $odometerRepository): Response
     {
-        $form = $this->createForm(OdometerType::class, $odometer);
+        $form = $this->createForm(OdometerFormType::class, $odometer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

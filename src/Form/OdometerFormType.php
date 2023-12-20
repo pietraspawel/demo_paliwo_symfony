@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Range;
 
-class OdometerType extends AbstractType
+class OdometerFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -73,7 +73,7 @@ class OdometerType extends AbstractType
                         'notInRangeMessage' => 'Data nie może być starsza niż data ostatniego tankowania i nie młodsza niż dzisiaj',
                     ]),
                 ],
-                'data' => new \DateTime(),
+                'data' => $options['data']->getDate() === null ? new \DateTime() : $options['data']->getDate(),
                 'invalid_message' => 'Nieprawidłowa wartość',
                 'label' => 'Data',
                 'format' => 'ddMMyyyy',
