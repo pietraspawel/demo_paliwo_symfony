@@ -1,6 +1,6 @@
 <div class="card-body table-responsive">
     <h4 class="text-center">Liczniki</h4>
-    <table class="table">
+    <table id="odometerTable" class="table table-hover">
         <thead>
             <tr>
                 <th colspan="5"></th>
@@ -21,7 +21,7 @@
         </thead>
         <tbody>
             {% for odometer in odometers %}
-                <tr>
+                <tr class="align-middle">
                     <td>{{ odometer.date.format("d.m.Y") }}</td>
                     <td>{{ odometer.value|number_format(0, ",", "&nbsp;")|raw }}</td>
                     <td>{{ odometer.fuel|number_format(2, ",", "&nbsp;")|raw }}</td>
@@ -33,7 +33,9 @@
                     {% else %}
                         <td>{{ odometer.consumption|number_format(2, ",", "&nbsp;")|raw }}</td>
                     {% endif %}
-                    <td></td>
+                    <td>
+                        <button type="button" class="btn btn-sm"><i class="bi-trash text-danger"></i></button>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

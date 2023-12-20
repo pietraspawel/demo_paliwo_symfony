@@ -5,3 +5,7 @@
         grid-template-columns: max(300px) auto;
     }
 }
+
+#odometerTable tbody tr {
+    cursor: pointer;
+}
