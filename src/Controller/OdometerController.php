@@ -93,7 +93,7 @@ class OdometerController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_odometer_edit", methods={"GET", "POST"})
+     * @Route("/edit/{id}", name="app_odometer_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Odometer $odometer, OdometerRepository $odometerRepository): Response
     {

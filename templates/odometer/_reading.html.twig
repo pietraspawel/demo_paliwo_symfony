@@ -21,7 +21,7 @@
         </thead>
         <tbody>
             {% for odometer in odometers %}
-                <tr class="align-middle">
+                <tr class="align-middle" data-redirect-to="{{ path("app_odometer_edit", {'id': odometer.id}) }}">
                     <td>{{ odometer.date.format("d.m.Y") }}</td>
                     <td>{{ odometer.value|number_format(0, ",", "&nbsp;")|raw }}</td>
                     <td>{{ odometer.fuel|number_format(2, ",", "&nbsp;")|raw }}</td>
