@@ -67,7 +67,7 @@ class Odometer
         return $this->value;
     }
 
-    public function setValue(int $value): self
+    public function setValue(?int $value): self
     {
         $this->value = $value;
 
@@ -79,7 +79,7 @@ class Odometer
         return $this->fuel;
     }
 
-    public function setFuel(string $fuel): self
+    public function setFuel(?string $fuel): self
     {
         $this->fuel = $fuel;
 
@@ -103,7 +103,7 @@ class Odometer
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(?\DateTimeInterface $date): self
     {
         $this->date = $date;
 
