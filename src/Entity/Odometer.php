@@ -37,6 +37,7 @@ class Odometer
      * @ORM\Column(type="decimal", precision=11, scale=2, nullable=true)
      */
     private $price;
+    private $traveled;
 
     /**
      * @ORM\Column(type="date")
@@ -111,5 +112,17 @@ class Odometer
     public function calculatePaid(): float
     {
         return $this->fuel * $this->price;
+    }
+
+    public function getTraveled(): ?int
+    {
+        return $this->traveled;
+    }
+
+    public function setTraveled(int $traveled): self
+    {
+        $this->traveled = $traveled;
+
+        return $this;
     }
 }

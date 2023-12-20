@@ -6,6 +6,7 @@ use App\Entity\Odometer;
 use App\Form\OdometerType;
 use App\Repository\CarRepository;
 use App\Repository\OdometerRepository;
+use App\Service\OdometerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,7 @@ class OdometerController extends AbstractController
         Request $request,
         CarRepository $carRepository,
         OdometerRepository $odometerRepository,
+        OdometerService $odometerService,
         EntityManagerInterface $entityManager
     ): Response {
         $user = $this->getUser();
@@ -35,15 +37,19 @@ class OdometerController extends AbstractController
         if ($lastRefuel !== null) {
             $lastRefuelDate = $lastRefuel->getDate()->format('Y-m-d');
         }
-        $form = $this->createForm(OdometerType::class, $odometer, ['last_refuel_date' => $lastRefuelDate]);
-        $form->handleRequest($request);
-
         if ($car === null || !$car->isActive()) {
             $car = $carRepository->findOneByOwner($user);
             $user->setCurrentCar($car);
             $entityManager->flush();
         }
+        $odometerCollection = [];
+        if ($car !== null) {
+            $odometerCollection = $odometerRepository->findBy(['car' => $car->getId()], ['date' => 'DESC']);
+            $odometerService->preprocessArray($odometerCollection);
+        }
 
+        $form = $this->createForm(OdometerType::class, $odometer, ['last_refuel_date' => $lastRefuelDate]);
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $odometerRepository->add($odometer, true);
             $this->addFlash('notice', 'Zapisałeś stan licznika!');
@@ -53,7 +59,7 @@ class OdometerController extends AbstractController
         return $this->render('odometer/odometer.html.twig', [
             'user_car' => $car,
             'cars' => $carRepository->findByOwner($user),
-            'odometers' => $odometerRepository->findBy(['car' => $car->getId()], ['date' => 'DESC']),
+            'odometers' => $odometerCollection,
             'form' => $form->createView(),
         ]);
     }
