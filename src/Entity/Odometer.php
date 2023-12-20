@@ -48,7 +48,7 @@ class Odometer
     /**
      * @ORM\Column(type="boolean", options={"default"=true})
      */
-    private $active;
+    private $active = 1;
 
     public function getId(): ?int
     {

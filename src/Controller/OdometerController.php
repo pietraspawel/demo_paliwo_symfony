@@ -44,7 +44,13 @@ class OdometerController extends AbstractController
         }
         $odometerCollection = [];
         if ($car !== null) {
-            $odometerCollection = $odometerRepository->findBy(['car' => $car->getId()], ['date' => 'DESC']);
+            $odometerCollection = $odometerRepository->findBy(
+                [
+                    'car' => $car->getId(),
+                    'active' => 1
+                ],
+                [ 'date' => 'DESC' ]
+            );
             $odometerService->preprocessCollection($odometerCollection);
         }
 

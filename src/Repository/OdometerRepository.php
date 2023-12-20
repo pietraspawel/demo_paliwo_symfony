@@ -47,7 +47,9 @@ class OdometerRepository extends ServiceEntityRepository
         }
         return $this->createQueryBuilder('o')
             ->andWhere('o.car = :car')
+            ->andWhere('o.active = :active')
             ->setParameter('car', $car)
+            ->setParameter('active', 1)
             ->setMaxResults(1)
             ->orderBy('o.date', 'DESC')
             ->getQuery()
