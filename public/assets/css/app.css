@@ -53,8 +53,6 @@ div.notifications .flash-warning {
 @media (min-width: 768px) {
     .form-card-100-percent {
         width: 100%;
-        margin-left: auto;
-        margin-right: auto;
     }
 }
 

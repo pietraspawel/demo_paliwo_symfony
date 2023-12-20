@@ -14,21 +14,17 @@
 
 {% block body %}
 
-<div class="container">
- 
-    {% if user_car is null %}
-        <div class="container mt-3">Brak samochodów. Dodaj swój pierwszy <a href="{{ path('app_car_index') }}">samochód</a>.</div>
-    {% else %}
-        <div class="container odometer-container">
-            <div class="form-card-100-percent mt-3 card ms-0 me-0 ms-md-auto">
-                {{ include('odometer/_add.html.twig') }}
-            </div>
-            <div class="formCard100percent mt-3 card ps-md-3 ms-md-3">
-                {{ include('odometer/_reading.html.twig') }}
-            </div>
+{% if user_car is null %}
+    <div class="container mt-3">Brak samochodów. Dodaj swój pierwszy <a href="{{ path('app_car_index') }}">samochód</a>.</div>
+{% else %}
+    <div class="container-fluid odometer-container ps-0 pe-0 ps-md-3 pe-md-3">
+        <div class="form-card-100-percent mt-3 card">
+            {{ include('odometer/_add.html.twig') }}
         </div>
-    {% endif %}
-
-</div>
+        <div class="form-card-100-percent mt-3 card">
+            {{ include('odometer/_reading.html.twig') }}
+        </div>
+    </div>
+{% endif %}
 
 {% endblock %}
