@@ -136,7 +136,7 @@ class OdometerController extends AbstractController
     public function delete(Request $request, Odometer $odometer, OdometerRepository $odometerRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $odometer->getId(), $request->request->get('_token'))) {
-            $car->setActive(false);
+            $odometer->setActive(false);
             $odometerRepository->add($odometer, true);
             $this->addFlash('warning', 'Usunąłeś zapis licznika!');
         }

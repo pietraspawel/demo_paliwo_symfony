@@ -11,8 +11,16 @@ $().ready(() => {
         location.href = path;
     });
 
-    $("#odometerTable").on("click", "tbody tr button", (e) => {
+    $("#odometerTable").on("click", "button[type='button']", (e) => {
         e.stopPropagation();
-        console.log("button klik");
+        let button = $(e.currentTarget);
+        let id = button.data("id");
+        $("#deleteConfirmationModal").data("id", id);
+        $("#deleteConfirmationModal").modal("show");
+    });
+
+    $("#deleteConfirmationModal").on("click", "button[type='submit']", () => {
+        let id = $("#deleteConfirmationModal").data("id");
+        $("form.delete-" + id).submit();
     });
 });

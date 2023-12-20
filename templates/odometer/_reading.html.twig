@@ -34,7 +34,12 @@
                         <td>{{ odometer.consumption|number_format(2, ",", "&nbsp;")|raw }}</td>
                     {% endif %}
                     <td>
-                        <button type="button" class="btn btn-sm"><i class="bi-trash text-danger"></i></button>
+                        <form class="delete delete-{{ odometer.id }}" method="post" action="{{ path('app_odometer_delete', {'id': odometer.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ odometer.id) }}">
+                            <button type="button" class="btn btn-sm" data-id="{{ odometer.id }}">
+                                <i class="bi-trash text-danger"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
             {% endfor %}
