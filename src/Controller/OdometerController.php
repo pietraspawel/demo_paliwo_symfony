@@ -45,7 +45,7 @@ class OdometerController extends AbstractController
         $odometerCollection = [];
         if ($car !== null) {
             $odometerCollection = $odometerRepository->findBy(['car' => $car->getId()], ['date' => 'DESC']);
-            $odometerService->preprocessArray($odometerCollection);
+            $odometerService->preprocessCollection($odometerCollection);
         }
 
         $form = $this->createForm(OdometerType::class, $odometer, ['last_refuel_date' => $lastRefuelDate]);
@@ -61,6 +61,7 @@ class OdometerController extends AbstractController
             'cars' => $carRepository->findByOwner($user),
             'odometers' => $odometerCollection,
             'form' => $form->createView(),
+            'average_consumption' => $odometerService->calculateAverageConsumption($odometerCollection),
         ]);
     }
 

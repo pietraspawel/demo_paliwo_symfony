@@ -3,6 +3,12 @@
     <table class="table">
         <thead>
             <tr>
+                <th colspan="5"></th>
+                <th>średnie spalanie</th>
+                <td>{{ average_consumption|number_format(2, ",", "&nbsp;")|raw }}</td>
+                <td></td>
+            </tr>
+            <tr>
                 <th>data</th>
                 <th>stan [km]</th>
                 <th>paliwo [l]</th>
