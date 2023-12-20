@@ -76,8 +76,7 @@ class OdometerFormType extends AbstractType
                 'data' => $options['data']->getDate() === null ? new \DateTime() : $options['data']->getDate(),
                 'invalid_message' => 'Nieprawidłowa wartość',
                 'label' => 'Data',
-                'format' => 'ddMMyyyy',
-                'widget' => 'choice',
+                'widget' => 'single_text',
             ])
         ;
     }
