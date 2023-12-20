@@ -9,12 +9,11 @@
                 <th>cena [zł]</th>
                 <th>zapłacono [zł]</th>
                 <th>przejechano [km]</th>
-                <th>spalanie [l/km]</th>
+                <th>spalanie [l/100km]</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            {{ dump(odometers) }}
             {% for odometer in odometers %}
                 <tr>
                     <td>{{ odometer.date.format("d.m.Y") }}</td>
@@ -23,7 +22,11 @@
                     <td>{{ odometer.price|number_format(2, ",", "&nbsp;")|raw }}</td>
                     <td>{{ odometer.calculatePaid|number_format(2, ",", "&nbsp;")|raw }}</td>
                     <td>{{ odometer.traveled|number_format(0, ",", "&nbsp;")|raw }}</td>
-                    <td></td>
+                    {% if odometer.consumption is null %}
+                        <td>---</td>
+                    {% else %}
+                        <td>{{ odometer.consumption|number_format(2, ",", "&nbsp;")|raw }}</td>
+                    {% endif %}
                     <td></td>
                 </tr>
             {% endfor %}

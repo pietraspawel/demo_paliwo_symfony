@@ -38,6 +38,7 @@ class Odometer
      */
     private $price;
     private $traveled;
+    private $consumption;
 
     /**
      * @ORM\Column(type="date")
@@ -122,6 +123,18 @@ class Odometer
     public function setTraveled(int $traveled): self
     {
         $this->traveled = $traveled;
+
+        return $this;
+    }
+
+    public function getConsumption(): ?float
+    {
+        return $this->consumption;
+    }
+
+    public function setConsumption(?float $consumption): self
+    {
+        $this->consumption = $consumption;
 
         return $this;
     }

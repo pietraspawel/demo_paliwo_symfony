@@ -12,11 +12,15 @@ class OdometerService
         foreach ($collection as $key => $odometer) {
             if (!isset($collection[$key + 1])) {
                 $traveled = 0;
+                $consumption = null;
             } else {
                 $nextOdometer = $collection[$key + 1];
                 $traveled = $odometer->getValue() - $nextOdometer->getValue();
+                $consumption = $odometer->getFuel() / $traveled * 100;
             }
-            $odometer->setTraveled($traveled);
+            $odometer
+                ->setTraveled($traveled)
+                ->setConsumption($consumption);
         }
     }
 }
