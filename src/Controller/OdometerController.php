@@ -123,12 +123,22 @@ class OdometerController extends AbstractController
     }
 
     /**
+     * @Route("/{id}", methods={"GET"})
+     */
+    public function deleteWrongMethod(): Response
+    {
+        return $this->redirectToRoute('app_odometer_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
      * @Route("/{id}", name="app_odometer_delete", methods={"POST"})
      */
     public function delete(Request $request, Odometer $odometer, OdometerRepository $odometerRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $odometer->getId(), $request->request->get('_token'))) {
-            $odometerRepository->remove($odometer, true);
+            $car->setActive(false);
+            $odometerRepository->add($odometer, true);
+            $this->addFlash('warning', 'Usunąłeś zapis licznika!');
         }
 
         return $this->redirectToRoute('app_odometer_index', [], Response::HTTP_SEE_OTHER);
