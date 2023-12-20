@@ -24,17 +24,17 @@ class Odometer
     private $car;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"unsigned"=true})
      */
     private $value;
 
     /**
-     * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
+     * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true, options={"unsigned"=true})
      */
     private $fuel;
 
     /**
-     * @ORM\Column(type="decimal", precision=11, scale=2, nullable=true)
+     * @ORM\Column(type="decimal", precision=11, scale=2, nullable=true, options={"unsigned"=true})
      */
     private $price;
     private $traveled;
@@ -44,6 +44,11 @@ class Odometer
      * @ORM\Column(type="date")
      */
     private $date;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default"=true})
+     */
+    private $active;
 
     public function getId(): ?int
     {
@@ -135,6 +140,18 @@ class Odometer
     public function setConsumption(?float $consumption): self
     {
         $this->consumption = $consumption;
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }
