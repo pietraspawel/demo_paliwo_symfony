@@ -102,7 +102,7 @@ class OdometerController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $odometerRepository->add($odometer, true);
-
+            $this->addFlash('notice', 'Edytowałeś stan licznika!');
             return $this->redirectToRoute('app_odometer_index', [], Response::HTTP_SEE_OTHER);
         }
 
