@@ -107,4 +107,9 @@ class Odometer
 
         return $this;
     }
+
+    public function calculatePaid(): float
+    {
+        return $this->fuel * $this->price;
+    }
 }

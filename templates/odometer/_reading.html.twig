@@ -14,14 +14,13 @@
             </tr>
         </thead>
         <tbody>
-            {{ dump(odometers) }}
             {% for odometer in odometers %}
                 <tr>
                     <td>{{ odometer.date.format("d.m.Y") }}</td>
                     <td>{{ odometer.value|number_format(0, ",", "&nbsp;")|raw }}</td>
                     <td>{{ odometer.fuel|number_format(2, ",", "&nbsp;")|raw }}</td>
                     <td>{{ odometer.price|number_format(2, ",", "&nbsp;")|raw }}</td>
-                    <td></td>
+                    <td>{{ odometer.calculatePaid|number_format(2, ",", "&nbsp;")|raw }}</td>
                     <td></td>
                     <td></td>
                     <td></td>
